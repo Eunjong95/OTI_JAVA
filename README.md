@@ -1,2 +1,2 @@
-# OTI_JAVA
-이것이 자바다!
+# OTI_SWcamp_Java
+Java Practice
