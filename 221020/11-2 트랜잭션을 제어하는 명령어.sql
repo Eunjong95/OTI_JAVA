@@ -1,0 +1,41 @@
+---------------------------------
+--11-2 트랜잭션을 제어하는 명령어
+---------------------------------
+drop table accounts;
+
+create table accounts (
+    ano varchar2(15) primary key,
+    owner varchar2(10) not null,
+    balance number not null
+);
+
+--트랜잭션 시작
+insert into accounts values('111-111', '홍길동', 10000);
+insert into accounts values('111-112', '감자바', 0);
+commit;
+--트랜잭션 종료
+
+--트랜잭션 시작
+update accounts set balance = balance-1000 where ano = '111-111';
+update accounts set balance = balance+1000 where ano = '111-112';
+rollback;
+--트랜잭션 종료
+
+--savepoint 사용
+--트랜잭션 시작
+insert into accounts values('111-113', '홍길서', 10000);
+insert into accounts values('111-114', '홍길남', 0);
+
+savepoint insertedPoint;
+
+update accounts set balance = balance-1000 where ano = '111-111';
+update accounts set balance = balance+1000 where ano = '111-112';
+
+savepoint updatedPoint;
+
+delete from accounts where ano = '111-114';
+
+rollback to updatedPoint;
+--트랜잭션 종료
+
+select * from accounts;
